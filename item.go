@@ -28,7 +28,7 @@ func (it Item[T]) Pipe(f Flow[T]) Item[T] {
 	return apply(it.ctx, it, f)
 }
 
-func (it Item[T]) Branch(pd Predicater[T], left, right Flow[T]) Item[T] {
+func (it Item[T]) Branch(pd Predicator[T], left, right Flow[T]) Item[T] {
 	if it.err != nil {
 		return it
 	}
