@@ -10,7 +10,7 @@ import (
 type AddAFlow struct{}
 
 func (f AddAFlow) Process(ctx context.Context, input string) (string, error) {
-	return input + "A", nil
+	return input + "goflow!", nil
 }
 
 type StringToInt struct{}
@@ -21,7 +21,7 @@ func (t StringToInt) Transform(ctx context.Context, input string) (int, error) {
 
 func main() {
 
-	item, err := goflow.NewItem(context.Background(), "example", nil).
+	item, err := goflow.NewItem(context.Background(), "Hello, ", nil).
 		Pipe(AddAFlow{}).Result()
 
 	if err != nil {
@@ -30,17 +30,4 @@ func main() {
 	}
 
 	fmt.Println(item)
-
-	//Transformer example
-	result2, err := goflow.
-		Transform(
-			goflow.
-				NewItem(context.Background(), "123", nil),
-			StringToInt{},
-		).Result()
-	if err != nil {
-		fmt.Println("Error:", err)
-		return
-	}
-	fmt.Println(result2)
 }
