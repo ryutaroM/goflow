@@ -51,5 +51,9 @@ func Transform[IN, OUT any](it Item[IN], t Transformer[IN, OUT]) Item[OUT] {
 		return NewItem(it.ctx, zero, it.err)
 	}
 	output, err := t.Transform(it.ctx, it.value)
+	if err != nil {
+		var zero OUT
+		return NewItem(it.ctx, zero, err)
+	}
 	return NewItem(it.ctx, output, err)
 }
