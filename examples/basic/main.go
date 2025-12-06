@@ -3,7 +3,6 @@ package main
 import (
 	"context"
 	"fmt"
-	"strconv"
 
 	"github.com/ryutaroM/goflow"
 )
@@ -12,12 +11,6 @@ type AddAFlow struct{}
 
 func (f AddAFlow) Process(ctx context.Context, input string) (string, error) {
 	return input + "goflow!", nil
-}
-
-type StringToInt struct{}
-
-func (t StringToInt) Transform(ctx context.Context, input string) (int, error) {
-	return strconv.Atoi(input)
 }
 
 func main() {
