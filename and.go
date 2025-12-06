@@ -7,7 +7,6 @@ type And[T any] struct {
 	right Predicator[T]
 }
 
-
 func (a And[T]) Test(ctx context.Context, input T) (bool, error) {
 	leftResult, err := a.left.Test(ctx, input)
 	if err != nil {
