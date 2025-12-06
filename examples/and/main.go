@@ -3,7 +3,8 @@ package main
 import (
 	"context"
 	"fmt"
-	"ryutaroM/goflow"
+
+	"github.com/ryutaroM/goflow"
 )
 
 type IsEven struct{}
