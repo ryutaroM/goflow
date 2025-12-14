@@ -11,12 +11,14 @@ type Step[T any] interface {
 }
 
 type DAG[T any] struct {
-	steps map[string]Step[T]
+	steps  map[string]Step[T]
+	levels map[string]int
 }
 
 func NewDAG[T any](s map[string]Step[T]) *DAG[T] {
 	return &DAG[T]{
-		steps: s,
+		steps:  s,
+		levels: make(map[string]int),
 	}
 }
 
@@ -62,5 +64,25 @@ func (d *DAG[T]) TopologicalSort() ([]string, error) {
 		return nil, wrapError(ErrorCycleDetectedNum)
 	}
 
+	d.levels = make(map[string]int)
+	for _, stepName := range result {
+		step := d.steps[stepName]
+		if len(step.Depends()) == 0 {
+			d.levels[stepName] = 0
+		} else {
+			maxLevel := 0
+			for _, dep := range step.Depends() {
+				if d.levels[dep]+1 > maxLevel {
+					maxLevel = d.levels[dep] + 1
+				}
+			}
+			d.levels[stepName] = maxLevel
+		}
+	}
+
 	return result, nil
+}
+
+func (d *DAG[T]) Levels() map[string]int {
+	return d.levels
 }
