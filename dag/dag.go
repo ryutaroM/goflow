@@ -10,10 +10,6 @@ type Step[T any] interface {
 	Flow() goflow.Flow[T]
 }
 
-type Data[T any] struct {
-	Values map[string]T
-}
-
 type DAG[T any] struct {
 	steps map[string]Step[T]
 }
