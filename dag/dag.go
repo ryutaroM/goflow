@@ -1,6 +1,8 @@
 package dag
 
 import (
+	"fmt"
+
 	"github.com/ryutaroM/goflow"
 )
 
@@ -72,8 +74,12 @@ func (d *DAG[T]) TopologicalSort() ([]string, error) {
 		} else {
 			maxLevel := 0
 			for _, dep := range step.Depends() {
-				if d.levels[dep]+1 > maxLevel {
-					maxLevel = d.levels[dep] + 1
+				depLevel, ok := d.levels[dep]
+				if !ok {
+					return nil, fmt.Errorf("missing dependency: step %s depends on %s which is not in DAG", stepName, dep) // TODO: define custom error
+				}
+				if depLevel+1 > maxLevel {
+					maxLevel = depLevel + 1
 				}
 			}
 			d.levels[stepName] = maxLevel
